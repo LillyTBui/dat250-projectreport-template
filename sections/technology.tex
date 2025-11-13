@@ -1,51 +1,1 @@
-\section{Technology Assessment}
-\label{sec:technology}
-
-
-Introduce in (sufficient) depth the key concepts and architecture of the chosen software technology. As part if this, you may consider using a running example to introduce the technology.
-
-This part and other parts of the report probably needs to refer to
-figures. Figure~\ref{fig:framework} from \cite{brown:96} just
-illustrates how figure can be included in the report.
-
-\begin{figure}[thb]
-	\centering
-	\includegraphics[scale=0.5]{figs/framework.png}
-	\caption{Software technology evaluation framework.}
-	\label{fig:framework}
-\end{figure}
-
-\subsection{Descriptive Modeling}
-
-write where the technology comes from, its history, its context and what problem it solves.
-Consider drawing a graph like in \cite{brown:96}.
-
-\subsection{Experiment Design}
-
-Write you hypotheses about what benefits the technology bring and how you can support or reject them via experiments.
-
-\subsection{Experiment Evaluation}
-
-Write about the results of your experiments, either via personal experience reports, quantitative benchmarks, a demostrator case study or a combination of multiple approaches.
-
-
-For some reports you may have to include a table with experimental
-results are other kinds of tables that for instance compares
-technologies. Table~\ref{tab:results} gives an example of how to create a table.
-
-\begin{table}[bth]
-	\centering
-	\begin{tabular}{llrrrrrr}
-		Config & Property & States & Edges & Peak & E-Time & C-Time & T-Time
-		\\ \hline \hline
-		22-2 & A   &    7,944  &   22,419  &  6.6  \%  &  7 ms & 42.9\% &  485.7\% \\
-		22-2 & A   &    7,944  &   22,419  &  6.6  \%  &  7 ms & 42.9\% &  471.4\% \\
-		30-2 & B   &   14,672  &   41,611  &  4.9  \%  & 14 ms & 42.9\% &  464.3\% \\
-		30-2 & C   &   14,672  &   41,611  &  4.9  \%  & 15 ms & 40.0\% &  420.0\% \\ \hline
-		10-3 & D   &   24,052  &   98,671  & 19.8  \%  & 35 ms & 31.4\% &  285.7\% \\
-		10-3 & E   &   24,052  &   98,671  & 19.8  \%  & 35 ms & 34.3\% &  308.6\% \\
-		\hline \hline
-	\end{tabular}
-	\caption{Selected experimental results on the communication protocol example.}
-	\label{tab:results}
-\end{table}
+\section{Technology Assessment}\label{sec:technology}Introduce in (sufficient) depth the key concepts and architecture of the chosen software technology. As part if this, you may consider using a running example to introduce the technology.This part and other parts of the report probably needs to refer tofigures. Figure~\ref{fig:framework} from \cite{brown:96} justillustrates how figure can be included in the report.\begin{figure}[thb]	\centering	\includegraphics[scale=0.5]{figs/framework.png}	\caption{Software technology evaluation framework.}	\label{fig:framework}\end{figure}\subsection{Descriptive Modeling}write where the technology comes from, its history, its context and what problem it solves.Consider drawing a graph like in \cite{brown:96}.\subsection{Experiment Design}The aim of this paper is to evaluate how different choices of technology can affect the caching ability.The purpose of caching is to improve performance by storing data in a temporary storage, effectively reducing the need for retrieving data from a permanent database (https://aws.amazon.com/caching/).Therefore, it is particularly interesting to compare two noSQL databases as they have different ways of storing data due to underlying architecture and structure.In order to effectively evaluate these technologies in the predefined context, the following hypotheses have been made:\begin{enumerate}    \item As Redis stores data through key-value pairs and Neo4j stores data in graphs, Redis is faster in terms of data retrieval.    \item As Neo4j uses graph-based structure to store data, it is more flexible and scalable when it comes to handling data relationships.\end{enumerate}Based on the results of the mentioned hypotheses above, the last hypothesis is:\begin{enumerate}    \item[3.] In terms of usability and complexity, Redis is simpler to implement than Neo4j.\end{enumerate}The paper tries to answer these hypotheses by conducting an experiment which is a simplified version of the final project.In order to do so, a branch was made for each technology based on the main branch.Then each technology was implemented in a way that serves as a caching service for the main application.This is to get a better understanding of its overall fit with the existing technology stack.The experiment can be divided into two parts. First, simulated users will vote on a specific poll where each vote will be stored according to the chosen technology.Then, handlers will retrieve all votes which triggers the caching logic.To ensure consistency in both parts of the experiment, it was decided to use JMeter as the tool to perform a load test.This experiment would help refute or support the proposed hypotheses.Since the first hypothesis is related to data retrieval, the total number of simulated users is 1000.It is important to note that this single experiment will address all of the hypotheses, as the setup and experiment design would be similar for each.In addition, the experiment includes the same requests and parameters for each technology to ensure a fair comparison.\subsection{Experiment Evaluation}Write about the results of your experiments, either via personal experience reports, quantitative benchmarks, a demostrator case study or a combination of multiple approaches.For some reports you may have to include a table with experimentalresults are other kinds of tables that for instance comparestechnologies. Table~\ref{tab:results} gives an example of how to create a table.\begin{table}[bth]	\centering	\begin{tabular}{llrrrrrr}		Config & Property & States & Edges & Peak & E-Time & C-Time & T-Time		\\ \hline \hline		22-2 & A   &    7,944  &   22,419  &  6.6  \%  &  7 ms & 42.9\% &  485.7\% \\		22-2 & A   &    7,944  &   22,419  &  6.6  \%  &  7 ms & 42.9\% &  471.4\% \\		30-2 & B   &   14,672  &   41,611  &  4.9  \%  & 14 ms & 42.9\% &  464.3\% \\		30-2 & C   &   14,672  &   41,611  &  4.9  \%  & 15 ms & 40.0\% &  420.0\% \\ \hline		10-3 & D   &   24,052  &   98,671  & 19.8  \%  & 35 ms & 31.4\% &  285.7\% \\		10-3 & E   &   24,052  &   98,671  & 19.8  \%  & 35 ms & 34.3\% &  308.6\% \\		\hline \hline	\end{tabular}	\caption{Selected experimental results on the communication protocol example.}	\label{tab:results}\end{table}
