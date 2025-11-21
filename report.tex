@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 
+
 \usepackage{a4wide}
 \usepackage{mathptm}
 \usepackage{xspace}
@@ -13,6 +14,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{hyperref}
+\usepackage{biblatex}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -36,11 +38,9 @@
 }
 \begin{document}
 
-\title{My Best Software Technology Evaluation Project Ever}
-
-\author{Some Student and Some other Student}
-
-\maketitle
+\input{title_page.tex}
+\titlePage
+\pagebreak
 
 \begin{abstract}
 
@@ -51,20 +51,21 @@
 
 %\input{commands}
 
+
 \input{sections/introduction}
 
-\input{sections/design}
+%\input{sections/design}
+%
 
 \input{sections/technology}
 
-
-\input{sections/implementation}
-
-
-
-\input{sections/conclusion}
+%
+%\input{sections/implementation}
+%
+%\input{sections/conclusion}
 
 \bibliographystyle{plain}
-\bibliography{report.bib}{}
+%\bibliography{report.bib}
+%\printbibliography
 
 \end{document}

@@ -1,20 +1,64 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Approximately 1 page on:
+In this paper, we will present our project, which is a prototype of the \emph{FeedApp}.
+It is a full-stack application that allows registered users to create, delete, and vote on polls.
+Meanwhile, unregistered users can either choose to register or vote anonymously on existing polls.
+In addition to using the core technology stack introduced in this course,
+the paper will introduce a new technology into the stack, namely Neo4j.
+This will be the new featured technology that will replace Redis.
 
-\begin{itemize}
+Throughout this paper we will discuss the functionality and design of the \emph{FeedApp}.
+Furthermore, the chosen feature technology will be thoroughly evaluated and compared with Redis,
+based on the methods introduced in "\emph{A Framework for Evaluating Software Technology}" by Brown A. W. and Wallnau K. C. \cite{brown:96}
+In the latter part of this paper we will provide a brief detailed explanation of how the prototype has been implemented,
+with some code snippet for illustration.
+In the end of this paper we will evaluate the featured technology, its maturity, quality of documentation and the learning curve to how to use it.
+\\
 
-\item A brief introduction to the prototype implementation and topic of the project.
 
-\item Discuss (briefly) the technology stack that has been selected
 
-\item A brief account of the results that have been obtained in the project.
+The technology stack implemented in this prototype implementation for this project can be seen in Table~\ref{tab:techstack}.
+ \begin{table} [h]
+     \centering
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \textbf{Category} & \textbf{Technology} & \textbf{Purpose} \\
+            \hline
+            Backend & Java/SpringBoot & General platform/framework \\
+            \hline
+            Web Framework & Spring Web MVC & HTTP/REST API \\
+            \hline
+            Fronted & React.js & SPA UI \\
+            \hline
+            Security & Spring Security & Authentication \& Authorization \\
+            & JWT & Web Token \\
+            \hline
+            Database & JPA with Hibernate and H2 & Relational database/ORM, Persistent storage \\
+            & Neo4j & NoSQL database, Caching \\
+            \hline
+            Messaging & RabbitMQ & Event sourcing \\
+            \hline
+            Deployment & Docker & Containerization \\
+            \hline
+            Repository & Git & Version control system\\
+            \hline
+            CI/CD & Github Actions & Software development workflow \\
+            \hline
+        \end{tabular}
+        \caption{The Technology Stack.}
+        \label{tab:techstack}
+\end{table}
 
-\item A one paragraph overview at the end, explaining how the rest of the report is / has been organised.
+The results from the experiments in this paper when testing out the featured technology, Neo4j,
+is obtained using JMeter.
+JMeter is an open-source Java-based software application used for testing various application measurements,
+e.g.\ latency.
+This paper will discuss both the performance and the ease of use between the featured technology and the one it replaces.
+\\
 
-\end{itemize}
+The rest of the report is organised as follows: in Section~\ref{sec:design} the functional aspects of the FeedApp application is described.
+Section~\ref{sec:technology} consists of the technology assessment of new technology in the project.
+In Section~\ref{sec:implementation}, brief details of the prototype's core features and aspects.
+Finally, in Section~\ref{sec:conclusion} an overall assessment of the featured technology.
 
-\noindent
-This rest of this report is organised as follows:
-Section~\ref{sec:design} gives an ....
