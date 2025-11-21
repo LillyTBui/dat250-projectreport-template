@@ -1,15 +1,70 @@
 \section{Prototype Implementation}
-\label{sec:implementation}
+\subsection{Prototype Overview}
 
-This section should provide brief details of how the prototype has been implemented.
-You may want to use come code snippets here, but only focus on core features and aspects.
-You are not meant to copy/paste your whole application code into the report.
-Focus for instance how other developers may run your application and how they might develop it further...
+As mentioned in the \hyperref[sec:introduction] {introduction},
+the purpose of this prototype was to develop a poll application with core features such as
+user registration, voting and poll creation.
+The prototype also integrates a caching mechanism which serves as the base for experimenting with
+the feature technology in this research project.
+The following core features that can be found in this prototype are listed below:
 
+\begin{itemize}
+    \item \textbf{User registration}: Users can register an account to create and publish polls.
+    \item \textbf{Voting}: Each poll has at least two voting options, and users can cast their votes either as registered users or as anonymous users.
+    \item \textbf{Vote update}: A registered user that voted on a poll can change their vote, while an anonymous voter cannot.
+\end{itemize}
+\\
+A feature within the poll application is
+that users can \textbf{register}, \textbf{login} and \textbf{logout} via Spring Security.
+Authentication is implemented using \textbf{JWT}, while authorization uses \textbf{Role-Based Access Control}.
+For data storage, the poll application utilizes an \textbf{H2 in-memory database} using \textbf{JPA with Hibernate},
+while the cache stores voting results for efficient access.
+\\
+Additionally, \textbf{RabbitMQ} is integrated to log vote events in the application.
+The idea behind messaging was to allow creators of their own polls to be notified
+whenever a vote had been cast to their poll.
+However, due to time constraints and the way functionalities were prioritized, this was never implemented in the prototype.
+Thus, future developers can implement endpoints that can push those events to the client-side, where the frontend can filter out
+the relevant vote events for the signed inn user.
+Other functionalities that can be improved within this poll application is to add role functionalities that are unique for
+ADMIN users and registered USERS. Within the poll application, roles are implemented, but they are not distinguished in a manner where ADMIN has functionalities
+that separate them from registered USERS.
 
-The example below shows how you may include code. There are similar
-styles for many other langages - in case you do not use Java in your
-project. You can wrap the listing into a figure in case you need to
-refer to it. How to create a figure was shown in Section~\ref{sec:technology}.
+\subsection{Run application}
+There are two ways to run this application.
+The simplest way is to use Docker containers to run this application.
+The poll application has already been packaged with all necessary dependencies such as RabbitMQ and Neo4j, using a Docker Compose setup.
+That way, the poll application and its required service can be launched together in a consistent and isolated environment.
+All it requires is to open a terminal within the root of the project, and run the command
+\begin{quote}
+    \texttt{docker-compose up --build}
+\end{quote} on the terminal.
+It will automatically run containers for each of the dependencies and the poll application.
+Once they are all running, the poll application can be accessed at localhost:8080.
+The other way would be to download all the software dependencies, which require more manual steps.
+Users have to install RabbitMQ and Neo4j in their host system where they are connected to the following ports listed below:
+\begin{itemize}
+    \item \textbf{RabbitMQ}: default client port 15672:15672 and default UI port 5672:5672.
+    \item \textbf{Neo4j}: default client port 7687:7687 and default UI port 7474:7474.
+\end{itemize}
 
-\lstinputlisting[language=java]{code/BoksVolum.java}
+Once all software dependencies have been mapped to the appropriate ports and are running,
+the application can be started with the following two ways.
+\\
+\\
+For Linux or macOS:
+\begin{quote}
+\texttt{./gradle bootRun}
+\end{quote}
+\\
+For Windows OS:
+\begin{quote}
+\texttt{.\textbackslash gradlew.bat bootRun}
+\end{quote}
+\\
+The other way is to go to the class \texttt{FeedApplication} located at
+\begin{quote}
+\texttt{backend/src/main/java path from the root}
+\end{quote}
+where the user can start it by running the main function:
+\lstinputlisting[language=java]{code/FeedAppApplication.java}
