@@ -1,4 +1,5 @@
 \section{Prototype Implementation}
+\label{sec:implementation}
 \subsection{Prototype Overview}
 
 As mentioned in the \hyperref[sec:introduction] {introduction},
@@ -20,6 +21,7 @@ Authentication is implemented using \textbf{JWT}, while authorization uses \text
 For data storage, the poll application utilizes an \textbf{H2 in-memory database} using \textbf{JPA with Hibernate},
 while the cache stores voting results for efficient access.
 \\
+
 Additionally, \textbf{RabbitMQ} is integrated to log vote events in the application.
 The idea behind messaging was to allow creators of their own polls to be notified
 whenever a vote had been cast to their poll.
