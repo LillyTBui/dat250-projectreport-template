@@ -1,17 +1,128 @@
 \section{Design}
 \label{sec:design}
 
-Around 5 pages about functional aspects of the FeedApp application.
+In this section, functional aspects of the Poll application will be described through use cases, domain model and architecture.
+The purpose of this section is to get an overview of the functionalities the application offers, and which technologies serves as the foundation of the application.
 
-Concretely, you shall write about 
+\subsection{Use cases}
+
+The use case diagram in Figure~\ref{fig:use-case} shows functionalities, possible actors and interface of the application.
+The different actors are users which can either have the role as "registered" or "anonymous".
+Additionally, the role as "admin" is not included because so far it has no specific functionalities, which distinguish it from registered users.
+These actors interact with the application through the interface which is represented as the rectangular box surrounding the functionalities.
+Based on this figure, the most important use cases are listed below:
 
 \begin{itemize}
-	\item the \emph{use cases},
-	\item the \emph{domain model}, and
-	\item the \emph{architecture} (including applied technologies)
+    \item \textbf{Create poll}: Registered users can create a new poll.
+    \item \textbf{Delete own poll}: Registered users can delete their own poll either through their dashboard or directly in the polls page, which contains all polls.
+    \item \textbf{Vote}: Both registered and anonymous users can vote on a poll.
+    \item \textbf{Update vote}: Registered users can change their existing vote by selecting a new vote option and sending the vote.
 \end{itemize}
 
-Each part shall ideally be accompanied with a graphical representation (diagram).
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{figs/use-case-diagram.png}
+	\caption{Use case diagram of poll application}
+	\label{fig:use-case}
+\end{figure}
 
-You may have a look at the \href{https://github.com/selabhvl/dat250public/blob/master/projectdescription/README.md}{Examples on GitHub}.
+\subsection{Domain model}
+\label{sec:model}
+
+The domain model illustrate important objects and their relations in Figure~\ref{fig:domain_model}.
+These objects are required in the poll application because they serve as the fundamental entities, which will be stored in the database.
+In addition, their relations will help us understand how objects are connected to each other in order to manage their creations and dependencies.
+As shown in the figure, the application has four objects, namely User, Poll, Vote and VoteOption.
+It is important to note that other classes and helper classes that are part of business logic, caching or messaging are not included in this model.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.2]{figs/domain_model.png}
+	\caption{Domain model of poll application}
+	\label{fig:domain_model}
+\end{figure}
+
+For each object, there are some application requirements that must be met. For instance, username, email and password are mandatory when registering a new user.
+In addition, email must pass a simple email validation, and username and email must be unique.
+All of these fields must be at least three characters. When creating new polls, question, validUntil and creator are required.
+Furthermore, validUntil must be a date in the future and there must be at least two vote options.
+For vote, userId and voteOption are mandatory, and voteOption must be an option in the poll the user is voting on.
+Even though voteOption is not an explicit field in the Vote object, it is required as a way to create an association to which option the user is voting on.
+Finally, voteOption will be automatically created when the specific poll is made, and it only requires a caption.
+
+\subsection{Application flow}
+The application flow diagram in Figure~\ref{fig:flow_diagram}, shows all the screen transitions on the frontend.
+Each screen represents a state, where transitions are represented by arrows and conditions are written in brackets.
+The red arrows represent any errors that may occur while interacting with our application, and the green arrows represent the opposite where the errors did not occur.
+Furthermore, the black arrows without labels represent how users can navigate to different screens through the navigation bar.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{figs/flow-diagram.png}
+	\caption{Simplified application flow diagram of poll application}
+	\label{fig:flow_diagram}
+\end{figure}
+
+In this figure, we can see the poll application consists of 5 screens. The \textbf{Main Screen} is the starting point, and connects to \textbf{Register Screen}, \textbf{Login Screen} and \textbf{Polls Screen} via a navigation bar.
+For simplicity, all transitions through the navigation bar are not included in the figure. Additionally, in the \textbf{Main Screen}, the button "Get started" sends all users to the \textbf{Register Screen}.
+The \textbf{Register Screen} is used to register new users, and a registration may fail if the requirements explained in the \hyperref[sec:domain]{domain model section} are not met.
+Users can be directed to the \textbf{Login Screen}, either by clicking on the link "log in" in the register form, or upon successful registration when the user will be redirected automatically.
+The \textbf{Login Screen} has similar behaviour as the \textbf{Register Screen}, but with different constraints such as the user needs to be registered in order to log in.
+When users successfully log in, they will be redirected to their personal dashboard. To access the \textbf{Dashboard Screen}, all users must be logged-in.
+This requirement also applies to creating new polls. The user can also delete and vote on their own poll from the dashboard.
+However, a registered user can only vote one time on a poll, but may change their existing vote by choosing another option.
+To log out, the logged-in user can click on the "Log out" button in the navigation bar. Finally, the \textbf{Polls Screen} contains all created polls where both registered and anonymous users can vote.
+The vote button is disabled if the user has not chosen an option. This means pressing a disabled button will do nothing. Registered user can also delete their own polls from this screen.
+
+\subsection{User Screens}
+The user screen mock-ups were made with Figma (https://www.figma.com/) and illustrates the initial design of the poll application.
+Some prototypes are displayed below:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.22]{figs/register-screen.png}
+	\caption{The Register Screen}
+	\label{fig:register}
+\end{figure}
+
+In the \textbf{Register Screen}, users can either register as new users or be forwarded to the login screen if they click on the "Log in" link.
+When pressing the "Register" button, all data fields in the form will be checked against the explained requirements in the \hyperref[sec:domain]{domain model section}.
+All error messages are red and tailored for the specific data field. For example, one error message is "Username must be longer than 3 characters".
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.22]{figs/dashboard-screen.png}
+	\caption{The Dashboard Screen where user can create new polls}
+	\label{fig:dashboard}
+\end{figure}
+
+In the \textbf{Dashboard Screen}, users can view their own polls, delete and create new ones. To create a new poll the users click on the button "Create poll", which will show a modal with the poll form.
+Creating a new poll will only be successful if they meet the requirements. These requirements will automatically be checked when clicking the "Create" button.
+Deleting a poll is done by clicking on the red button "Delete".
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.22]{figs/polls-screen.png}
+	\caption{The Polls Screen}
+	\label{fig:register}
+\end{figure}
+
+In the \textbf{Polls Screen}, both anonymous and registered users can vote on polls. To vote on a poll, users need to choose a vote option and click the "Vote" button.
+A vote option is chosen if it gets a purple border color. If no option is chosen, the button will remain disabled which is identified by a grey color.
+After the users have voted, the results for the specific poll will be updated. The total votes on the poll is displayed, while the progress bar indicate the number of votes on each vote option.
+
+\subsection{Architecture}
+Finally, Figure~\ref{fig:architecture} shows the system architecture diagram, which highlights what components exist in the poll application and what technologies are used to implement them.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{figs/system_architecture.png}
+	\caption{System architecture of poll application}
+	\label{fig:architecture}
+\end{figure}
+
+The backend uses Spring Web MVC to build the REST API, which provides several endpoints that can be requested by the frontend.
+Service classes provide the business logic which enforce the rules to determine how data is managed.
+RabbitMQ is the technology used for messaging, while persistent storage is handled by Java Persistence API with H2.
+Finally, Neo4j is used for caching and the frontend is built with React.
 
